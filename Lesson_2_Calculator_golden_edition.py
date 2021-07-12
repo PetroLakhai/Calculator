@@ -17,6 +17,10 @@ def get_input_number(order_number):
     """
     enter_number_text = f'Please, enter the {order_number} number: '
     int_value = input(enter_number_text)
+    if int_value == 'EXIT':
+        exit()
+    else:
+        pass
     
     condition = True
     while condition:
@@ -61,43 +65,7 @@ def get_result(math_operations, validated_symbol):
     return result 
 
 
-def exit_or_not():
-    """
-    Ask user, if he/she wants to continue.
-    """
-    exit_command = input("If you want to close the calculator, please write EXIT, else - skip the step! ")
-    if exit_command == 'EXIT':
-        exit()
-    else:
-        pass
-
-# --------------------------------------------------------------------------------------------------
-# RUN SCRIPT
-# --------------------------------------------------------------------------------------------------
-
-int_value1 = get_input_number(order_number="first")  # User enters first number
-int_value2 = get_input_number(order_number="next")  # User enters second number
-
-symbol = input(symbol_ender_text)  # User entered the symbol: /, +, a, q, " "
-validated_symbol = validate_incoming_symbols(symbol)  # +, -, *,  /
-
-if validated_symbol != '/':
-    math_operations = {
-        '+': int_value1 + int_value2,
-        '-': int_value1 - int_value2,
-        '*': int_value1 * int_value2,
-    }
-else:
-    math_operations = {
-        '/': int_value1 / int_value2,
-    }
-
-
-while True:
-    int_value1 = get_result(math_operations, validated_symbol) # Result from previus action
-    exit_or_not()
-    int_value2 = get_input_number(order_number="next")  # User enters second number
-
+def get_math_operation():
     symbol = input(symbol_ender_text)  # User entered the symbol: /, +, a, q, " "
     validated_symbol = validate_incoming_symbols(symbol)  # +, -, *,  /
 
@@ -111,4 +79,20 @@ while True:
         math_operations = {
             '/': int_value1 / int_value2,
         }
-                
+    return math_operations, validated_symbol
+
+
+# --------------------------------------------------------------------------------------------------
+# RUN SCRIPT
+# --------------------------------------------------------------------------------------------------
+
+print("If you want to close the calculator, please write EXIT, instead number! ")
+int_value1 = get_input_number(order_number="first")  # User enters first number
+int_value2 = get_input_number(order_number="next")  # User enters second number
+math_operations, validated_symbol = get_math_operation()
+
+while True:
+    int_value1 = get_result(math_operations, validated_symbol) # Result from previus action
+    int_value2 = get_input_number(order_number="next")  # User enters second number
+    math_operations, validated_symbol = get_math_operation()
+       
